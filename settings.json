@@ -1,0 +1,47 @@
+{
+    "bot_prefix":".",
+    "bot_ID":
+    [
+        775889062073466910,
+        788068960343818270
+    ],
+    "formats":
+    [
+        ".png", 
+        ".gif", 
+        "jpeg"
+    ],
+    "dzban":
+    [
+        "przez zero",
+        "przez 0",
+        "/0",
+        "0^0",
+        "łamanie praw fizyki",
+        "bloku kurwo jebana"
+    ],
+    "wolacz":
+    [
+        "papież",
+        "bot",
+        "bocik",
+        "bocie",
+        "janie pawle",
+        "papaju",
+        "chuju"
+    ],
+    "main_channel":484716771278848005,
+    "test_channel":776064966872399872,
+    "ranks":
+    [
+        "Dyrekcja",
+        "Ordynator"
+    ],
+    "liga":
+    [
+        "lolek",
+        "liga",
+        "ligunia",
+        "<@&696083933623877734>"
+    ]
+}
