@@ -18,7 +18,7 @@ async def leave(ctx,ranks):
         return
     await ctx.voice_client.disconnect()
 
-async def seppuku(ctx):
+async def seppuku(ctx): #stolen from SKNI KOD bot
     reason='Popełnił sekkupu. Gloria Victis!'
     await ctx.author.kick(reason=reason)
     tmp=str(ctx.message.author)+' popełnij seppuku'
