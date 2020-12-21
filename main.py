@@ -47,7 +47,6 @@ def reload_f():
     global wolacz
     global ranks
     global liga
-    global bot_IDs
     with open ("settings.json") as file:
         data=json.load(file)
     formats=data["formats"]
@@ -56,35 +55,48 @@ def reload_f():
     ranks=data["ranks"]
     liga=data["liga"]
     bot_prefix==data["bot_prefix"]
-    bot_IDs=data["bot_ID"]
 
-@client.command(pass_context=True)
+@client.command(name='reload',
+                description="Reloads config",
+                pass_context=True)
 async def reload(ctx):
     if await f.check_permission(ctx,ranks)==False:
         return
     reload_f()
     await ctx.send('Reload complete')
 
-@client.command(pass_context=True)
+@client.command(name='play',
+                description="Play barka",
+                pass_context=True)
 async def play(ctx):
     await c.play(ctx,client,ranks,main_channel)
 
-@client.command(pass_context=True)
+@client.command(name='leave',
+                description="Bot leaves voice",
+                pass_context=True)
 async def leave(ctx):
     await c.leave(ctx,ranks)
 
-@client.command(pass_context=True)
+@client.command(name='seppuku',
+                description="Commit seppuku",
+                pass_context=True)
 async def seppuku(ctx):
     await c.seppuku(ctx)
-@client.command(pass_context=True)
+@client.command(name='clear',
+                description="Removes x messages",
+                pass_context=True)
 async def clear(ctx, amount=1):
     await c.clear(ctx, amount, client, ranks)
         
-@client.command(pass_context=True)
+@client.command(name='mute',
+                description="Mute user",
+                pass_context=True)
 async def mute(ctx, person):
    await c.mute(ctx,person,ranks,muted)
 
-@client.command(pass_context=True)
+@client.command(name='unmute',
+                description="Unmutes user",
+                pass_context=True)
 async def unmute(ctx, person):
     await c.unmute(ctx,person,ranks,muted)
 
