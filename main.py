@@ -3,14 +3,13 @@ import asyncio
 import datetime
 import json
 import os
-import re
 
-from dotenv import load_dotenv, main
-
-import discord
 from discord.ext import commands, tasks
 from discord.ext.commands.core import check
 from discord.utils import get
+from dotenv import load_dotenv
+
+import modules as m
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -40,16 +39,6 @@ async def on_ready():
 
 players={}
 
-async def check_permission(ctx):
-    user_ranks=[]
-    for i in ranks:
-        user_ranks.append(discord.utils.get(ctx.guild.roles,name=i))
-    for i in user_ranks:
-        if i in ctx.author.roles:
-            return True
-    await ctx.send('Nie masz admina polaku robaku')
-    return False  
-
 def reload_f():
     global bot_prefix
     global formats
@@ -68,119 +57,35 @@ def reload_f():
     bot_prefix==data["bot_prefix"]
     bot_IDs=data["bot_ID"]
 
-async def join_papa(id,typ):
-    if id==0: 
-        return
-    else:
-        channel=0
-        if typ=='auto':
-            channel=client.get_channel(id)
-        elif typ=='comm':
-            channel=id
-        await channel.connect()
-        voice = get(client.voice_clients)
-        voice.play(discord.FFmpegPCMAudio('barka_wykop.mp3'))
-        voice.source = discord.PCMVolumeTransformer(voice.source)
-        voice.source.volume = 0.5
-        await asyncio.sleep(202)
-        await voice.disconnect()
-
-def check_channel():
-    max_members=0
-    choosen_channel_id=0
-    voice_channel_list = []
-    for guild in client.guilds:
-        for channel in guild.voice_channels:
-            voice_channel_list.append(channel.id)
-    for i in voice_channel_list:
-        channel = client.get_channel(i)
-        members = channel.voice_states.keys() 
-        members_number=0
-        for _ in members:
-            members_number+=1
-        if members_number>max_members:
-            max_members=members_number
-            choosen_channel_id=i
-    print(voice_channel_list)
-    print('Choosen channel: ',choosen_channel_id)
-    print('Members: ',max_members)
-    voice_channel_list.clear()
-    return choosen_channel_id
-
-def set_ID(x):
-    tmp=''
-    for i in range(len(x)-1):
-        if x[i]=='!' or x[i]=='<' or x[i]=='>' or x[i]=='@':
-            continue
-        else:
-            tmp+=x[i]
-    return int(tmp)
-
-@client.command(pass_context=True)
-async def play(ctx):
-    if await check_permission(ctx)==False:
-        return
-    ogolny=client.get_channel(main_channel) 
-    voice_ch=ctx.author.voice.channel
-    await ogolny.send('Kremówka time!')
-    await ogolny.send('https://piekarniagrzybki.pl/wp-content/uploads/2017/12/kremowka.jpg')
-    await join_papa(voice_ch,'comm')
-
 @client.command(pass_context=True)
 async def reload(ctx):
-    if await check_permission(ctx)==False:
+    if await m.check_permission(ctx,ranks)==False:
         return
     reload_f()
     await ctx.send('Reload complete')
 
 @client.command(pass_context=True)
+async def play(ctx):
+    await m.play(ctx,client,ranks,main_channel)
+
+@client.command(pass_context=True)
 async def leave(ctx):
-    if await check_permission(ctx)==False:
-        return
-    await ctx.voice_client.disconnect()
+    await m.leave(ctx,ranks)
 
 @client.command(pass_context=True)
 async def seppuku(ctx):
-    reason='Popełnił sekkupu. Gloria Victis!'
-    await ctx.author.kick(reason=reason)
-    tmp=str(ctx.message.author)+' popełnij seppuku'
-    await ctx.send(tmp)
-    await ctx.send('https://media1.tenor.com/images/6f64764b4b7874465d83de68342347cc/tenor.gif')
-
+    await m.seppuku(ctx)
 @client.command(pass_context=True)
 async def clear(ctx, amount=1):
-    channel = ctx.message.channel
-    if await check_permission(ctx)==False:
-        return
-    if amount>20:
-        await ctx.send('Maks 20 wiadomości')
-        return
-    if ctx.channel==client.get_channel(526399406564573184):
-        await ctx.send('Zygi mnie zajebie')
-        return
-    messages = []
-    async for message in channel.history(limit=amount+1):
-        messages.append(message)
-    await channel.delete_messages(messages)
-    await ctx.send('Messages deleted.')
+    await m.clear(ctx, amount, client, ranks)
         
 @client.command(pass_context=True)
 async def mute(ctx, person):
-    if await check_permission(ctx)==False:
-        return
-    if set_ID(person) in muted:
-        await ctx.send("Podany user jest zmutowany lub nie istnieje")
-    else:
-        muted.add(set_ID(person))
+   await m.mute(ctx,person,ranks,muted)
 
 @client.command(pass_context=True)
 async def unmute(ctx, person):
-    if await check_permission(ctx)==False:
-        return
-    try:
-        muted.remove(set_ID(person))
-    except:
-        await ctx.send("Podany user jest odmutowany lub nie istnieje")
+    await m.unmute(ctx,person,ranks,muted)
 
 @client.event
 async def on_message(message):
@@ -231,11 +136,11 @@ async def papa_mobile():
         channel=client.get_channel(main_channel)  #ogolny
         await channel.send('Kremówka time!')
         await channel.send('https://piekarniagrzybki.pl/wp-content/uploads/2017/12/kremowka.jpg')
-        id=check_channel()
+        id=m.check_channel(client)
         if id==0:
             await asyncio.sleep(180)
         else:
-            await join_papa(id,'auto')
+            await m.join_papa(id,'auto',client)
     elif datetime.datetime.now().hour==19 and datetime.datetime.now().minute==40:
         channel=client.get_channel(main_channel)  #ogolny
         await channel.send('<@&696083933623877734> 21 pamiętajcie o loku dziubdziaczki')
