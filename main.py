@@ -156,6 +156,6 @@ async def papa_mobile():
             await f.join_papa(id,'auto',client)
     elif datetime.datetime.now().hour==19 and datetime.datetime.now().minute==40:
         channel=client.get_channel(main_channel)  #ogolny
-        await channel.send('<@&696083933623877734> 21 pamiętajcie o loku dziubdziaczki')
+        await channel.send('<@&696083933623877734> 21 pamiętajcie o lolku dziubdziaczki')
         await asyncio.sleep(300)
 client.run(TOKEN)
