@@ -9,7 +9,8 @@
     [
         ".png", 
         ".gif", 
-        "jpeg"
+        ".jpeg",
+        ".jpg"
     ],
     "dzban":
     [
