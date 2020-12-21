@@ -2,7 +2,7 @@ from discord.ext.commands.core import check
 from discord.utils import get
 from dotenv import load_dotenv
 
-import modules as f
+import modules.functions as f
 
 async def play(ctx,client,ranks,main_channel):
     if await f.check_permission(ctx,ranks)==False:
