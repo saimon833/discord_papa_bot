@@ -9,7 +9,8 @@ from discord.ext.commands.core import check
 from discord.utils import get
 from dotenv import load_dotenv
 
-import modules as m
+from modules import commands as c
+from modules import functions as f
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -59,33 +60,33 @@ def reload_f():
 
 @client.command(pass_context=True)
 async def reload(ctx):
-    if await m.check_permission(ctx,ranks)==False:
+    if await f.check_permission(ctx,ranks)==False:
         return
     reload_f()
     await ctx.send('Reload complete')
 
 @client.command(pass_context=True)
 async def play(ctx):
-    await m.play(ctx,client,ranks,main_channel)
+    await c.play(ctx,client,ranks,main_channel)
 
 @client.command(pass_context=True)
 async def leave(ctx):
-    await m.leave(ctx,ranks)
+    await c.leave(ctx,ranks)
 
 @client.command(pass_context=True)
 async def seppuku(ctx):
-    await m.seppuku(ctx)
+    await c.seppuku(ctx)
 @client.command(pass_context=True)
 async def clear(ctx, amount=1):
-    await m.clear(ctx, amount, client, ranks)
+    await c.clear(ctx, amount, client, ranks)
         
 @client.command(pass_context=True)
 async def mute(ctx, person):
-   await m.mute(ctx,person,ranks,muted)
+   await c.mute(ctx,person,ranks,muted)
 
 @client.command(pass_context=True)
 async def unmute(ctx, person):
-    await m.unmute(ctx,person,ranks,muted)
+    await c.unmute(ctx,person,ranks,muted)
 
 @client.event
 async def on_message(message):
@@ -136,11 +137,11 @@ async def papa_mobile():
         channel=client.get_channel(main_channel)  #ogolny
         await channel.send('Kremówka time!')
         await channel.send('https://piekarniagrzybki.pl/wp-content/uploads/2017/12/kremowka.jpg')
-        id=m.check_channel(client)
+        id=f.check_channel(client)
         if id==0:
             await asyncio.sleep(180)
         else:
-            await m.join_papa(id,'auto',client)
+            await f.join_papa(id,'auto',client)
     elif datetime.datetime.now().hour==19 and datetime.datetime.now().minute==40:
         channel=client.get_channel(main_channel)  #ogolny
         await channel.send('<@&696083933623877734> 21 pamiętajcie o loku dziubdziaczki')
