@@ -23,7 +23,6 @@ data=[]
 with open ("settings.json") as file:
     data=json.load(file)
 tweet_channel=data["tweet_channel"]
-main_channel=data["main_channel"]
 test_channel=data["test_channel"]
 bot_prefix=data["bot_prefix"]
 
