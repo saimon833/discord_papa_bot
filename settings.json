@@ -1,11 +1,5 @@
 {
     "bot_prefix":">",
-    "main_channel":777614015706431526,
     "test_channel":777614015706431526,
-    "tweet_channel":777614015706431526,
-    "ranks":
-    [
-        "Dyrekcja",
-        "Ordynator"
-    ]
+    "tweet_channel":777614015706431526
 }
