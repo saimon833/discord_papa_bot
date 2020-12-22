@@ -23,7 +23,6 @@ data=[]
 with open ("settings.json") as file:
     data=json.load(file)
 tweet_channel=data["tweet_channel"]
-test_channel=data["test_channel"]
 bot_prefix=data["bot_prefix"]
 
 client = commands.Bot(command_prefix=bot_prefix)
@@ -42,7 +41,7 @@ class TweetListener(StreamListener):
             print(s)
             footer=s["created_at"]
             ft=footer.split(' ')
-            footer=ft[0]+' '+ft[1]+' '+ft[3]
+            footer=ft[1]+' '+ft[2]+' '+ft[5]+' '+ft[3]
             TwitterEmbed = discord.Embed(title=title,description=text,url=link, color=0xFF0000)
             TwitterEmbed.set_footer(text=footer)
             TwitterEmbed.set_thumbnail(url=pp)
@@ -60,8 +59,6 @@ muted=set()
 @client.event
 async def on_ready():
     papa_mobile.start()
-    channel=client.get_channel(test_channel)  #test
-    await channel.send('Bot online')
     print('Bot ready')
 
 players={}
