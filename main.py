@@ -20,7 +20,7 @@ TWITTER_ACCESS_TOKEN = os.getenv('TWITTER_ACCESS_TOKEN')
 TWITTER_ACCESS_SECRET = os.getenv('TWITTER_ACCESS_SECRET')
 
 data=[]
-with open ("settings_skni.json") as file:
+with open ("settings.json") as file:
     data=json.load(file)
 tweet_channel=data["tweet_channel"]
 main_channel=data["main_channel"]
