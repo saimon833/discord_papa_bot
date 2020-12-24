@@ -26,6 +26,9 @@ async def seppuku(ctx): #stolen from SKNI KOD bot
     await ctx.send('https://media1.tenor.com/images/6f64764b4b7874465d83de68342347cc/tenor.gif')
 
 async def mute(ctx, person,ranks,muted):
+    if ctx.message.author.id == f.set_ID(person):
+        await ctx.send("Nie możesz zmutować siebie, głuptasku")
+        return
     if await f.check_permission(ctx,ranks)==False:
         return
     if f.set_ID(person) in muted:
