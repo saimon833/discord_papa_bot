@@ -9,8 +9,8 @@ from discord.ext.commands.core import check
 from discord.utils import get
 from dotenv import load_dotenv
 
-from modules import commands as c
-from modules import functions as f
+from modules.commands import *
+from modules.functions import join_papa,check_channel,check_permission
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -60,7 +60,7 @@ def reload_f():
                 description="Reloads config",
                 pass_context=True)
 async def reload(ctx):
-    if await f.check_permission(ctx,ranks)==False:
+    if await check_permission(ctx,ranks)==False:
         return
     reload_f()
     await ctx.send('Reload complete')
@@ -69,36 +69,36 @@ async def reload(ctx):
                 description="Play barka",
                 pass_context=True)
 async def play(ctx):
-    await c.play(ctx,client,ranks,main_channel)
+    await play(ctx,client,ranks,main_channel)
 
 @client.command(name='leave',
                 description="Bot leaves voice",
                 pass_context=True)
 async def leave(ctx):
-    await c.leave(ctx,ranks)
+    await leave(ctx,ranks)
 
 @client.command(name='seppuku',
                 description="Commit seppuku",
                 pass_context=True)
 async def seppuku(ctx):
-    await c.seppuku(ctx)
+    await seppuku(ctx)
 @client.command(name='clear',
                 description="Removes x messages",
                 pass_context=True)
 async def clear(ctx, amount=1):
-    await c.clear(ctx, amount, client, ranks)
+    await clear(ctx, amount, client, ranks)
         
 @client.command(name='mute',
                 description="Mute user",
                 pass_context=True)
 async def mute(ctx, person):
-   await c.mute(ctx,person,ranks,muted)
+   await mute(ctx,person,ranks,muted)
 
 @client.command(name='unmute',
                 description="Unmutes user",
                 pass_context=True)
 async def unmute(ctx, person):
-    await c.unmute(ctx,person,ranks,muted)
+    await unmute(ctx,person,ranks,muted)
 
 @client.event
 async def on_message(message):
@@ -149,11 +149,11 @@ async def papa_mobile():
         channel=client.get_channel(main_channel)  #ogolny
         await channel.send('Kremówka time!')
         await channel.send('https://piekarniagrzybki.pl/wp-content/uploads/2017/12/kremowka.jpg')
-        id=f.check_channel(client)
+        id=check_channel(client)
         if id==0:
             await asyncio.sleep(180)
         else:
-            await f.join_papa(id,'auto',client)
+            await join_papa(id,'auto',client)
     elif datetime.datetime.now().hour==19 and datetime.datetime.now().minute==40:
         channel=client.get_channel(main_channel)  #ogolny
         await channel.send('<@&696083933623877734> 21 pamiętajcie o lolku dziubdziaczki')
