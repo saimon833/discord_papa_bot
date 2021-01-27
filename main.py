@@ -141,6 +141,8 @@ async def on_message(message):
         wiadomosc='<@'+str(message.author.id)+'> proszę, masz tu linę ^^'
         await message.channel.send(wiadomosc)
         await message.channel.send('https://palmersafetyus.com/wp-content/uploads/1867-Manila-Rope.jpg')
+    if 'mamud' in message.content.lower():
+        await message.channel.send('https://cdn.discordapp.com/attachments/484716771278848005/803296498795413514/zNauwJUUVXJMz9WN3PN4s0DapwfNOnA2.png')
     await client.process_commands(message)
 
 @tasks.loop(seconds=2)
